@@ -1,11 +1,141 @@
-# 📦 Parcel Locker Management System
+# 📦 Parcel Locker Management System  
 
-A Python-based system for managing parcels, deliveries, users, and parcel lockers. The application supports data validation, transformation, reporting, and parcel size analysis. It also includes a simple web UI built using **Streamlit**.
+[![Python](https://img.shields.io/badge/Python-3.13-blue.svg)](https://www.python.org/)  
+[![Streamlit](https://img.shields.io/badge/Streamlit-UI-red.svg)](https://streamlit.io/)  
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://www.docker.com/)  
+[![Test Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg)](https://damiankowalczykdk.github.io/parcel-report-dashboard/) 
+ 
 
 ---
 
+## 📖 Overview
+
+Parcel Locker Management System is a backend-focused Python application designed to manage:
+
+- 📦 Parcels  
+- 🏢 Parcel Lockers  
+- 👤 Users  
+- 🚚 Deliveries  
+
+The system demonstrates clean architecture principles, domain-driven design, validation layers, repository abstraction, and service-oriented logic separation.
+
+A lightweight **Streamlit UI** is provided for interactive data exploration and reporting.
+
+The project is fully containerized using Docker and ready for reproducible local development.
+
+---
+
+## 🏗️ Architecture & Design Principles
+
+The project follows a layered architecture:
+
+- **Domain Layer** – Data models and core business logic  
+- **Repository Layer** – Data access abstraction  
+- **Service Layer** – Business use cases and orchestration  
+- **Validation Layer** – Input validation and data integrity enforcement  
+- **UI Layer** – Streamlit-based presentation layer  
+
+### Engineering Highlights
+
+- Clear separation of concerns  
+- Strong typing (MyPy + Pyright)  
+- Dependency injection via constructor injection  
+- High unit test coverage  
+- Dockerized environment for reproducibility  
+
+---
+
+## ✨ Core Features
+
+### 📦 Parcel Management
+- Create and validate parcels
+- Assign parcels to lockers
+- Validate locker capacity constraints
+
+### 📊 Reporting Services
+- Most common parcel sizes per locker
+- Cities with the highest shipment volume (by size)
+- Longest delivery durations (sent → expected date)
+- Locker compartment limit validation
+
+### ✅ Validation Layer
+- Email validation
+- Positive numeric validation
+- Required field enforcement
+- Structured data transformation via converters
+
+---
+
+## 🧪 Testing & Code Quality
+
+The project emphasizes reliability and maintainability:
+
+- **pytest** for unit testing  
+- Dedicated test structure per module  
+- Modular pytest structure with dedicated conftest.py files  
+- MyPy & Pyright static type checking  
+- Coverage reporting enabled  
+---
+## 🚀 Getting Started (Local Development)
+
+* **Build and run all services:**
+```bash
+docker-compose up -d --build
+```
+
+### 1. Install Pipenv (if not already installed)
+```bash
+pip install pipenv
+```
+### 2. Install dependencies
+```bash
+pipenv install
+```
+### 3. Activate the virtual environment
+```bash
+pipenv shell
+```
+---
+## 🖥️ Running the Streamlit App (Web UI)
+After activating the environment, run the **Streamlit** app:
+
+```bash
+streamlit run main_ui.py
+```
+The app will open in your browser (usually at: http://localhost:8501).
+Use the interface to view reports, parcel statistics, and visual summaries generated from the data.
+---
+## 📄 Example Usage (Without UI)
+
+All business logic is fully set up in `main.py`.  
+To use a specific report or check a service method, you just need to call it — the repositories and service layer are already initialized.
+
+* Example:
+
+```python
+# Print the result of the method you want
+print(service.city_most_shipments_by_size())
+print(service.most_common_parcel_sizes_per_locker())
+service.is_parcel_limit_in_locker_exceeded()
+service.max_days_between_sent_and_expected()
+```
+
+* Run application
+```bash
+pipenv run python main.py
+```
+* Example output:
+
+```text
+Output of city_most_shipments_by_size()
+{'sent': {'small': 'Chicago'}, 'received': {'small': 'New York'}}
+
+Output of most_common_parcel_sizes_per_locker()
+{'L001': ['small', 'medium'], 'L002': ['small']}
+```
+
 📁 Project Structure
-`````
+```text
 src/
 ├── converter.py 
 ├── file_service.py
@@ -40,90 +170,9 @@ tests/
 ├── test_validator.py
 
 Pipfile / Pipfile.lock # Project dependencies
-`````
-___
+```
+---
+## 🤝 Contact
 
-## 🚀 Getting Started
-
-1. Install Pipenv (if not already installed)\
-   - pip install pipenv
-2. Install dependencies
-   - pipenv install
-3. Activate the virtual environment
-   - pipenv shell
-
-## 🖥️ Running the Streamlit App (Web UI)
-After activating the environment, run the Streamlit app:
-
-streamlit run main_2.py
-
-The app will open in your browser (usually at: http://localhost:8501).
-Use the interface to view reports, parcel statistics, and visual summaries generated from the data.
-
-## 🧠 Features
-✅ Data validation (emails, positive numbers, required fields)
-
-✅ Converters to transform raw dictionaries to structured data classes
-
-✅ Repositories for managing users, lockers, parcels, and deliveries
-
-✅ Reporting services:
-
-Most common parcel sizes per locker
-
-Cities with the most sent/received parcels by size
-
-Longest delivery durations between send and expected date
-
-Locker compartment limit checking
-
-✅ Streamlit web UI for interacting with and viewing reports
-
-## 🧪 Testing
-pipenv install --dev\
-Run unit tests:
-
-pipenv run test
-To check test coverage:
-
-- pipenv run check     # runs pyright
-- pipenv run check2    # runs mypy on src, tests, main.py, main_2.py
-- pipenv run test      # runs pytest with coverage reports
-
-
-🛠 Technologies Used
-Python 3.13.2
-
-- Pipenv
-- Streamlit
-- email-validator
-- dataclasses
-- MyPy
-- Pytest
-
-## 🐳  Docker & Docker Compose
-✅ Build and run the project using Docker Compose (recommended):
-- docker-compose up -d --build
-
-✅ You can also build the Docker image manually:
-- docker build -t locker-monitor .
-
-## 📄 Example Usage (Reports)
-
-from src.repository import ParcelSummaryRepository
-from src.service import ParcelReportService
-
-repo = ParcelSummaryRepository(...)  # Initialized repositories
-service = ParcelReportService(repository=repo)
-
-print(service.most_common_parcel_sizes_per_locker())
-print(service.city_most_shipments_by_size())
-print(service.max_days_between_sent_and_expected())
-
-## 📬 Author
-Educational project — Parcel Locker Management System
-
-Author: Damian Kowalczyk
-\
-Year: 2025
-
+* Designed and implemented by Damian Kowalczyk.
+Feel free to connect or explore other backend projects.
