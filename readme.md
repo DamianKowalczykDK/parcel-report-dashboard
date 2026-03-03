@@ -12,28 +12,37 @@
 
 Parcel Locker Management System is a backend-focused Python application designed to manage:
 
-- 📦 Parcels  
-- 🏢 Parcel Lockers  
-- 👤 Users  
-- 🚚 Deliveries  
+- 📦 Parcels
+- 🏢 Parcel Lockers
+- 👤 Users
+- 🚚 Deliveries
 
-The system demonstrates clean architecture principles, domain-driven design, validation layers, repository abstraction, and service-oriented logic separation.
+Instead of manual operations, the system acts as an **ETL-style pipeline**:
 
-A lightweight **Streamlit UI** is provided for interactive data exploration and reporting.
+- **Extract** – reads parcel and locker data from JSON stores  
+- **Transform** – validates business logic (locker capacity, delivery limits)
+- **Load** – updates reports, triggers notifications, and persists data
 
-The project is fully containerized using Docker and ready for reproducible local development.
+
+A lightweight **Streamlit UI** allows interactive data exploration and reporting.  
+
+This project demonstrates:
+
+- Clean architecture and service separation  
+- ETL-style data processing in memory  
+- Integration with UI for interactive reporting  
+- Strict typing and full test coverage
 
 ---
 
 ## 🏗️ Architecture & Design Principles
-
 The project follows a layered architecture:
 
 - **Domain Layer** – Data models and core business logic  
 - **Repository Layer** – Data access abstraction  
 - **Service Layer** – Business use cases and orchestration  
 - **Validation Layer** – Input validation and data integrity enforcement  
-- **UI Layer** – Streamlit-based presentation layer  
+- **UI Layer** – Streamlit-based presentation layer 
 
 ### Engineering Highlights
 
@@ -94,6 +103,16 @@ pipenv install
 ### 3. Activate the virtual environment
 ```bash
 pipenv shell
+```
+### 4. Quality Checks (Linting & Testing)
+Ensure code integrity before running:
+```bash
+# Run strict type checking
+pipenv run mypy src/
+```
+```bash
+# Run tests with coverage
+pipenv run pytest --cov=src --cov-report=term-missing
 ```
 ---
 ## 🖥️ Running the Streamlit App (Web UI)
@@ -174,5 +193,5 @@ Pipfile / Pipfile.lock # Project dependencies
 ---
 ## 🤝 Contact
 
-* Designed and implemented by Damian Kowalczyk.
+* Designed and implemented by [Damian Kowalczyk](https://github.com/DamianKowalczykDK).
 Feel free to connect or explore other backend projects.
